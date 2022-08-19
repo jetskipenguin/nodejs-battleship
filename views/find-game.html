@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pew Pew</title>
+
+    <link href="css/find-game.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="center">
+            <form action="/find-game" method="POST" name=gameIdForm enctype="application/x-www-form-urlencoded" id="nicknameForm">
+                <label for="gameId">Enter a game ID</label> <br><br>
+                <input type="text" id="gameId" name="gameId"> <br><br>
+                <input type="submit" value="Submit" id="formSubmit">
+            </form>
+
+            <h3>Or</h3>
+
+            <form action="/find-game" method="POST">
+                <input type="submit" name="createGame" value="Create a Game" />
+            </form>
+        </div>
+    </div> 
+</body>
+</html>

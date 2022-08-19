@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pew Pew</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href="css/landing.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Home Page -->
+        <div class="page" id="landingPage">
+            <div class="center">
+                <form  id="landing-form" enctype="application/x-www-form-urlencoded">
+                    <label for="nickname-input">Enter a nickname</label> <br><br>
+                    <input type="text" id="nickname-input" name="nickname-input"> <br><br>
+    
+                    <label for="room-input">(Optional) Enter a room ID</label> <br><br>
+                    <input type="text" id="room-input" name="room-input"> <br><br>
+    
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+
+        <!-- Game Page -->
+        <div class="page" id="gamePage">
+            <table class="board" id="playerBoard">
+                <tr>
+                    <td id="00"></td>
+                    <td id="10"></td>
+                    <td id="20"></td>
+                    <td id="30"></td>
+                    <td id="40"></td>
+                    <td id="50"></td>
+                    <td id="60"></td>
+                    <td id="70"></td>
+                    <td id="80"></td>
+                    <td id="90"></td>
+                </tr>
+                <tr>
+                    <td id="01"></td>
+                    <td id="11"></td>
+                    <td id="21"></td>
+                    <td id="31"></td>
+                    <td id="41"></td>
+                    <td id="51"></td>
+                    <td id="61"></td>
+                    <td id="71"></td>
+                    <td id="81"></td>
+                    <td id="91"></td>
+                </tr>
+                <tr>
+                    <td id="02"></td>
+                    <td id="12"></td>
+                    <td id="22"></td>
+                    <td id="32"></td>
+                    <td id="42"></td>
+                    <td id="52"></td>
+                    <td id="62"></td>
+                    <td id="72"></td>
+                    <td id="82"></td>
+                    <td id="92"></td>
+                </tr>
+                <tr>
+                    <td id="03"></td>
+                    <td id="13"></td>
+                    <td id="23"></td>
+                    <td id="33"></td>
+                    <td id="43"></td>
+                    <td id="53"></td>
+                    <td id="63"></td>
+                    <td id="73"></td>
+                    <td id="83"></td>
+                    <td id="93"></td>
+                </tr>
+                <tr>
+                    <td id="04"></td>
+                    <td id="14"></td>
+                    <td id="24"></td>
+                    <td id="34"></td>
+                    <td id="44"></td>
+                    <td id="54"></td>
+                    <td id="64"></td>
+                    <td id="74"></td>
+                    <td id="84"></td>
+                    <td id="94"></td>
+                </tr>
+                <tr>
+                    <td id="05"></td>
+                    <td id="15"></td>
+                    <td id="25"></td>
+                    <td id="35"></td>
+                    <td id="45"></td>
+                    <td id="55"></td>
+                    <td id="65"></td>
+                    <td id="75"></td>
+                    <td id="85"></td>
+                    <td id="95"></td>
+                </tr>
+                <tr>
+                    <td id="06"></td>
+                    <td id="16"></td>
+                    <td id="26"></td>
+                    <td id="36"></td>
+                    <td id="46"></td>
+                    <td id="56"></td>
+                    <td id="66"></td>
+                    <td id="76"></td>
+                    <td id="86"></td>
+                    <td id="96"></td>
+                </tr>
+                <tr>
+                    <td id="07"></td>
+                    <td id="17"></td>
+                    <td id="27"></td>
+                    <td id="37"></td>
+                    <td id="47"></td>
+                    <td id="57"></td>
+                    <td id="67"></td>
+                    <td id="77"></td>
+                    <td id="87"></td>
+                    <td id="97"></td>
+                </tr>
+                <tr>
+                    <td id="08"></td>
+                    <td id="18"></td>
+                    <td id="28"></td>
+                    <td id="38"></td>
+                    <td id="48"></td>
+                    <td id="58"></td>
+                    <td id="68"></td>
+                    <td id="78"></td>
+                    <td id="88"></td>
+                    <td id="98"></td>
+                </tr>
+                <tr>
+                    <td id="09"></td>
+                    <td id="19"></td>
+                    <td id="29"></td>
+                    <td id="39"></td>
+                    <td id="49"></td>
+                    <td id="59"></td>
+                    <td id="69"></td>
+                    <td id="79"></td>
+                    <td id="89"></td>
+                    <td id="99"></td>
+                </tr>
+            </table>
+
+            <table class="board" id="enemyBoard">
+                <tr>
+                    <td id="E00"></td>
+                    <td id="E10"></td>
+                    <td id="E20"></td>
+                    <td id="E30"></td>
+                    <td id="E40"></td>
+                    <td id="E50"></td>
+                    <td id="E60"></td>
+                    <td id="E70"></td>
+                    <td id="E80"></td>
+                    <td id="E90"></td>
+                </tr>
+                <tr>
+                    <td id="E01"></td>
+                    <td id="E11"></td>
+                    <td id="E21"></td>
+                    <td id="E31"></td>
+                    <td id="E41"></td>
+                    <td id="E51"></td>
+                    <td id="E61"></td>
+                    <td id="E71"></td>
+                    <td id="E81"></td>
+                    <td id="E91"></td>
+                </tr>
+                <tr>
+                    <td id="E02"></td>
+                    <td id="E12"></td>
+                    <td id="E22"></td>
+                    <td id="E32"></td>
+                    <td id="E42"></td>
+                    <td id="E52"></td>
+                    <td id="E62"></td>
+                    <td id="E72"></td>
+                    <td id="E82"></td>
+                    <td id="E92"></td>
+                </tr>
+                <tr>
+                    <td id="E03"></td>
+                    <td id="E13"></td>
+                    <td id="E23"></td>
+                    <td id="E33"></td>
+                    <td id="E43"></td>
+                    <td id="E53"></td>
+                    <td id="E63"></td>
+                    <td id="E73"></td>
+                    <td id="E83"></td>
+                    <td id="E93"></td>
+                </tr>
+                <tr>
+                    <td id="E04"></td>
+                    <td id="E14"></td>
+                    <td id="E24"></td>
+                    <td id="E34"></td>
+                    <td id="E44"></td>
+                    <td id="E54"></td>
+                    <td id="E64"></td>
+                    <td id="E74"></td>
+                    <td id="E84"></td>
+                    <td id="E94"></td>
+                </tr>
+                <tr>
+                    <td id="E05"></td>
+                    <td id="E15"></td>
+                    <td id="E25"></td>
+                    <td id="E35"></td>
+                    <td id="E45"></td>
+                    <td id="E55"></td>
+                    <td id="E65"></td>
+                    <td id="E75"></td>
+                    <td id="E85"></td>
+                    <td id="E95"></td>
+                </tr>
+                <tr>
+                    <td id="E06"></td>
+                    <td id="E16"></td>
+                    <td id="E26"></td>
+                    <td id="E36"></td>
+                    <td id="E46"></td>
+                    <td id="E56"></td>
+                    <td id="E66"></td>
+                    <td id="E76"></td>
+                    <td id="E86"></td>
+                    <td id="E96"></td>
+                </tr>
+                <tr>
+                    <td id="E07"></td>
+                    <td id="E17"></td>
+                    <td id="E27"></td>
+                    <td id="E37"></td>
+                    <td id="E47"></td>
+                    <td id="E57"></td>
+                    <td id="E67"></td>
+                    <td id="E77"></td>
+                    <td id="E87"></td>
+                    <td id="E97"></td>
+                </tr>
+                <tr>
+                    <td id="E08"></td>
+                    <td id="E18"></td>
+                    <td id="E28"></td>
+                    <td id="E38"></td>
+                    <td id="E48"></td>
+                    <td id="E58"></td>
+                    <td id="E68"></td>
+                    <td id="E78"></td>
+                    <td id="E88"></td>
+                    <td id="E98"></td>
+                </tr>
+                <tr>
+                    <td id="E09"></td>
+                    <td id="E19"></td>
+                    <td id="E29"></td>
+                    <td id="E39"></td>
+                    <td id="E49"></td>
+                    <td id="E59"></td>
+                    <td id="E69"></td>
+                    <td id="E79"></td>
+                    <td id="E89"></td>
+                    <td id="E99"></td>
+                </tr>
+            </table>
+
+            <!-- <script src="javascript/game.js"></script> -->
+        </div>
+    </div>
+
+    <!-- For SPA Navigation -->
+    <script src="/javascript/spa.js"></script>
+
+    <!-- For actual game -->
+    <script src="/javascript/game.js"></script>
+
+    <!-- Interfacing with Server -->
+    <script>
+        const form = document.getElementById('landing-form');
+        const nicknameInput = document.getElementById('nickname-input');
+        const roomInput =  document.getElementById('room-input');
+
+        const socket = io();
+
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+            const nickname = nicknameInput.value;
+            const room = roomInput.value;
+            
+            if(room != ""){ console.log(`Room is: ${room}`); }
+            console.log(`Nickname is ${nickname}`);
+            socket.emit('landing-form', {nickname: nickname, room: room});
+        })
+
+        socket.on('retry-landing-form', message => {
+            alert(message)
+        })
+
+        socket.on('start-game', message => {
+            render("game")
+        })
+    </script>
+</body>
+</html>

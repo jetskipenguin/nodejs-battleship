@@ -1,0 +1,65 @@
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+body {
+	background-color: #8ed1fc;
+}
+
+.container {
+    height: 400px;
+    position: relative;
+}
+  
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#landingPage {
+    display: none;
+}
+
+#gamePage {
+    display: block;
+}
+
+.board {
+    margin-left: 70px;
+    margin-right: 70px;
+    background-color: #b4c0c7;
+    border: 8px solid #123c58;
+    border-radius: 10px;
+    float: left;
+}
+
+td {
+    border: 2px solid;
+}
+
+tr {
+    height:75px;
+}
+
+table {
+    table-layout: fixed;
+    width: 40%;
+}
+
+.ship {
+    width:100px;
+    height:50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
