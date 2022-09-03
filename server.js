@@ -55,6 +55,10 @@ io.on('connection', socket => {
         socket.emit('start-game', 'Ready to start the game!');
     })
 
+    socket.on('start-game', () => {
+        
+    })
+
     socket.on('disconnect', () => {
         console.log(`Client with id ${socket.id} wants to disconnect`);
         console.log(socket.rooms);

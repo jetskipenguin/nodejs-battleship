@@ -1,10 +1,143 @@
+var gameInfo = {gameState: "SETUP", shipList: [], shipCount: 5};
 
-function createShip(x, y, hit, team){
+
+function createShip(x, y, l, w, hit){
     return {
         x: x,
         y: y,
+        length: l,
+        width: w,
         hit: hit
     };
+}
+
+function enableDragElement(elmnt) {
+    
+    elmnt.addEventListener("mousedown", ()=>{
+        elmnt.classList.add("active");
+        document.addEventListener("mousemove", onDrag);
+    });
+    document.addEventListener("mouseup", ()=>{
+        elmnt.classList.remove("active");
+        document.removeEventListener("mousemove", onDrag);
+    });
+}
+
+function enableRotateElement(elmnt) {
+    var rotated = false;
+
+    elmnt.onclick = function() {
+        var deg = rotated ? 0 : 90;
+
+        elmnt.style.webkitTransform = 'rotate('+deg+'deg)'; 
+        elmnt.style.mozTransform    = 'rotate('+deg+'deg)'; 
+        elmnt.style.msTransform     = 'rotate('+deg+'deg)'; 
+        elmnt.style.oTransform      = 'rotate('+deg+'deg)'; 
+        elmnt.style.transform       = 'rotate('+deg+'deg)'; 
+
+        rotated = !rotated;
+    }
+}
+
+function enableRotateAndDrag(elmnt) {
+    const delta = 10;
+    var rotated = false;
+    let startX;
+    let startY;
+
+    function onDrag({movementX, movementY}){
+        let getStyle = window.getComputedStyle(elmnt);
+        let leftVal = parseInt(getStyle.left);
+        let topVal = parseInt(getStyle.top);
+        elmnt.style.left = `${leftVal + movementX}px`;
+        elmnt.style.top = `${topVal + movementY}px`;
+    }
+
+    elmnt.addEventListener('mousedown', function (event) {
+        startX = event.pageX;
+        startY = event.pageY;
+        document.addEventListener("mousemove", onDrag);
+    });
+
+    elmnt.addEventListener('mouseup', function (event) {
+        const diffX = Math.abs(event.pageX - startX);
+        const diffY = Math.abs(event.pageY - startY);
+        
+        // elmnt has been clicked, ensures no accidental clicks
+        if (diffX < delta && diffY < delta) {
+            // rotates elmnt
+            var deg = rotated ? 0 : 90;
+
+            elmnt.style.webkitTransform = 'rotate('+deg+'deg)'; 
+            elmnt.style.mozTransform    = 'rotate('+deg+'deg)'; 
+            elmnt.style.msTransform     = 'rotate('+deg+'deg)'; 
+            elmnt.style.oTransform      = 'rotate('+deg+'deg)'; 
+            elmnt.style.transform       = 'rotate('+deg+'deg)'; 
+
+            rotated = !rotated;
+        }
+        document.removeEventListener("mousemove", onDrag);
+    });
+}
+
+function renderShips() {
+    console.log(gameInfo.shipList);
+    for(let i = 0; i < gameInfo.shipCount; i++) {
+        ship = gameInfo.shipList[i]
+
+        // add div under the coords representing the ship
+        div = document.createElement('div');
+        div.setAttribute("id", "ship");
+        length = 75 * ship.length;          // hardcoded height of grid
+        div.style.height = length.toString() + 'px';
+
+        document.getElementById(ship.x.toString() + ship.y.toString()).appendChild(div);
+        shipDiv = document.getElementById(ship.x.toString() + ship.y.toString()).childNodes[0];
+        // enable dragging and rotating the blocks representing the ships
+        enableRotateAndDrag(shipDiv);
+    }
+}
+
+// initializes board for player
+function setupBoard() {
+    // stores numerical id representing each table in the array
+    var coords = [];
+    // pushes ids into coords
+    for(let i = 0; i < 10; i++){
+        for(let j = 0; j < 10; j++){
+            coords.push(j.toString() + i.toString());
+        }
+    }
+
+    // stores dom objects for each table in array
+    var tdObjects = [];
+
+    // gets dom objects and stores them
+    for(let i = 0; i < coords.length; i++) {
+        tdObjects.push(document.getElementById(coords[i]));
+    }
+
+    // changes color of boxes on hover
+    for(let i = 0; i < tdObjects.length; i++) {
+        tdObjects[i].onmouseover = () => {
+            tdObjects[i].style.color = "#699DCF";
+        }
+    }
+
+    // changes color of boxes back when no longer hovering
+    for(let i = 0; i < tdObjects.length; i++) {
+        tdObjects[i].onmouseleave = () => {
+            tdObjects[i].style.color = "black";
+        }
+    }
+
+    // generate ships
+    gameInfo.shipList.push(createShip(0, 0, 5, 1, false)) // carrier
+    gameInfo.shipList.push(createShip(1, 0, 4, 1, false)) // battleship
+    gameInfo.shipList.push(createShip(2, 0, 3, 1, false)) // cruiser / submarine
+    gameInfo.shipList.push(createShip(3, 0, 3, 1, false)) // cruiser / submarine
+    gameInfo.shipList.push(createShip(4, 0, 2, 1, false)) // destroyer
+    renderShips();
 }
 
 // Setup phase, placing ships
@@ -45,46 +178,11 @@ async function startGame(game) {
 
 // where execution starts and ends
 function main() {
-    // stores numerical id representing each table in the array
-    var coords = [];
-    // pushes ids into coords
-    for(let i = 0; i < 10; i++){
-        for(let j = 0; j < 10; j++){
-            coords.push(j.toString() + i.toString());
-        }
-    }
-
-    // stores dom objects for each table in array
-    var tdObjects = [];
-
-    // gets dom objects and stores them
-    for(let i = 0; i < coords.length; i++) {
-        tdObjects.push(document.getElementById(coords[i]));
-    }
-
-    // changes color of boxes on hover
-    for(let i = 0; i < tdObjects.length; i++) {
-        tdObjects[i].onmouseover = () => {
-            tdObjects[i].style.color = "#699DCF";
-        }
-    }
-
-    // changes color of boxes back when no longer hovering
-    for(let i = 0; i < tdObjects.length; i++) {
-        tdObjects[i].onmouseleave = () => {
-            tdObjects[i].style.color = "black";
-        }
-    }
-
-    var gameInfo = {gameState: "SETUP", teamId: 1, shipList: [], shipCount: 3, tdObjects: tdObjects, opponent: ""};
-    // firebaseSignIn().then(() => {
-    //     startGame(gameInfo).then(() => {
-    //         findOpponent(gameInfo).then(() => {
-    //             console.log(gameInfo.opponent);
-    //         });
-    //     });
-    // })
     
+    setupBoard();
+    // tell server javascript is done loading, waiting on player
+    gameInfo.gameState = "READY";
+
 }
 
 document.addEventListener("DOMContentLoaded", main);

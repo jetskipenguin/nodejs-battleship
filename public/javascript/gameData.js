@@ -1,10 +1,13 @@
-function room(peopleCount, roomId) 
-{
+rooms = [];
+
+function room(peopleCount, roomId) {
     this.peopleCount = peopleCount;
     this.roomId = roomId;
 }
 
-rooms = [];
+function startGame (room) {
+    console.log(room.peopleCount)
+}
 
 function idGen(yourNumber){
     var text = "";
@@ -16,4 +19,4 @@ function idGen(yourNumber){
    return text;
 }
 
-module.exports = {room, rooms, idGen}
+module.exports = {room, rooms, idGen, startGame}

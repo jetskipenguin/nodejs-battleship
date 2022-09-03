@@ -23,6 +23,7 @@ body {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    overflow: hidden;
 }
 
 #landingPage {
@@ -36,18 +37,19 @@ body {
 .board {
     margin-left: 70px;
     margin-right: 70px;
-    background-color: #b4c0c7;
     border: 8px solid #123c58;
+    background-color: #b4c0c7;
     border-radius: 10px;
     float: left;
 }
 
 td {
     border: 2px solid;
+    position: relative;
 }
 
 tr {
-    height:75px;
+    height: 75px;
 }
 
 table {
@@ -55,11 +57,21 @@ table {
     width: 40%;
 }
 
-.ship {
-    width:100px;
-    height:50px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+#ship {
+    border: 2px solid #00f;
+    background: rgba(0,0,255,.05);
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    padding-bottom: 0px; 
+    left: 0px; 
+    top: 0px; 
+    margin: -2px;
+    z-index: 9;
+    cursor: grab;
 }
-  
+
+.active{
+    cursor: move;
+    user-select: none;
+  }

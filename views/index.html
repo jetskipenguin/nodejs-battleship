@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pew Pew</title>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="css/landing.css" rel="stylesheet">
 </head>
 <body>
@@ -302,11 +303,12 @@
         })
 
         socket.on('retry-landing-form', message => {
-            alert(message)
+            alert(message);
         })
 
         socket.on('start-game', message => {
-            render("game")
+            render("game");
+            socket.emit('finished-rendering');
         })
     </script>
 </body>
